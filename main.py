@@ -43,7 +43,11 @@ if __name__ == '__main__':
       if p.domain in FAKES:
         ip = FAKES[p.domain]
       else:
-        ip = socket.gethostbyname(p.domain)
+        try:
+            ip = socket.gethostbyname(p.domain)
+        except socket.gaierror, e:
+            print e
+            print
       print 'Response: %s -> %s' % (p.domain, ip)
       server.sendto(p.response(ip), addr)
   except KeyboardInterrupt:
